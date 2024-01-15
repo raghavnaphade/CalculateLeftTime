@@ -16,17 +16,15 @@ namespace CalculateLeftTime
         public static HubConnection SignalRConn;
         private static int WM_QUERYENDSESSION = 0x11;
 
-        public int tenantId = 1,userId = 45;
+        public int tenantId,userId;
         private System.Windows.Forms.Timer timer;
-        public string accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQ1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IlJhZ2hhdl9OYXBoYWRlXzE0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicmFnaGF2Lm5hcGhhZGVAd2FpaW4uY29tIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJZTlBETjVCR1hRN0ROQURQNk9MSzdaT0kyQkRaUEhKQiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik1hbmFnZXIiLCJodHRwOi8vd3d3LmFzcG5ldGJvaWxlcnBsYXRlLmNvbS9pZGVudGl0eS9jbGFpbXMvdGVuYW50SWQiOiIxIiwic3ViIjoiNDUiLCJqdGkiOiIyMzcwM2RkYi03ZjA4LTRhNTctYTllMy00NWYwNmE5MDczMmYiLCJpYXQiOjE3MDQ4MDA0MTcsInRva2VuX3ZhbGlkaXR5X2tleSI6IjI3NDViMWE3LThhOWItNDk2YS1hOTAyLTY1YzRiZGM3OWMxZCIsInVzZXJfaWRlbnRpZmllciI6IjQ1QDEiLCJ0b2tlbl90eXBlIjoiMCIsIm5iZiI6MTcwNDgwMDQxNywiZXhwIjoxNzA0ODg2ODE3LCJpc3MiOiJJTlRJTUUiLCJhdWQiOiJJTlRJTUUifQ.m0ifctBlr4jUzT7tFtoj4XuDxHqcYaW3C4UBb3sjTUc";
+        public string accessToken = "";
         public Form1()
         {
             InitializeComponent();
             this.FormClosing += Form1_FormClosingAsync;
             this.Activated += new System.EventHandler(this.Form1_Activated);
-            ConnectSignalRServer();
-
-            TrigerSignalRServerUserStatus("SignalRAgentUserStatus");
+          
 
            /* PostUserStatusToWeb();*/
 
@@ -72,9 +70,10 @@ namespace CalculateLeftTime
                    tenantId = (int)jsonObject["tenantId"];
                    accessToken = (string)jsonObject["accessToken"];
                     Console.Write($" userid {userId}");
-                    // Display the values (you can use any other way to display them)
-                    // MessageBox.Show($"User ID: {userId}\nTenant ID: {tenantId} aT ${accessToken}", "JSON Data", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Debug.WriteLine($" userid {userId}");
                     HideApp();
+                    ConnectSignalRServer();
+                    TrigerSignalRServerUserStatus("SignalRAgentUserStatus");
                 }
                 else
                 {
@@ -363,22 +362,24 @@ namespace CalculateLeftTime
                     data.tenantId = (int)1;
                     data.device = "W";
                     await SignalRConn.SendAsync("RegisterClientId", data);
+                    System.Diagnostics.Debug.WriteLine("RegisterClientId");
                 };
 
                 try
                 {
                     await SignalRConn.StartAsync();
+                    System.Diagnostics.Debug.WriteLine("StartAsync RegisterClientId");
 
                 }
                 catch (Exception ex)
                 {
-                    
+                    System.Diagnostics.Debug.WriteLine("RegisterClientId" + ex);
                 }
                 //-------------------
             }
             catch (Exception ex)
             {
-               
+                System.Diagnostics.Debug.WriteLine("StartAsync RegisterClientId" + ex);
             }
         }
 
@@ -391,12 +392,13 @@ namespace CalculateLeftTime
                 SignalRConn.On<UserStatusDto>(SignalREvent, (data) =>
                 {
                     Console.WriteLine("gfgggjfjhgjhghjgjhgjhgkg");
+                    System.Diagnostics.Debug.WriteLine("gfgggjfjhgjhghjgjhgjhgkg");
                 });
                 #endregion
             }
             catch (Exception ex)
             {
-                
+                System.Diagnostics.Debug.WriteLine("TrigerSignalRServerUserStatus" + ex);
             }
         }
         public async static Task<HttpResponseMessage> PostUserStatusToWeb()
@@ -409,12 +411,13 @@ namespace CalculateLeftTime
                 userStatusDto.UserStatus = 5;
 
                 await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
+                System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent");
                 return new HttpResponseMessage();
               
             }
             catch (Exception ex)
             {
-
+                System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent" + ex);
             }
             return null;
         }
