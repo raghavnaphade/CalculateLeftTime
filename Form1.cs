@@ -4,24 +4,32 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Microsoft.AspNet.SignalR.Messaging;
+using System.Drawing;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace CalculateLeftTime
 {
     public partial class Form1 : Form
     {
+        public static HubConnection SignalRConn;
         private static int WM_QUERYENDSESSION = 0x11;
-        public int tenantId,userId;
-        public string accessToken;
+
+        public int tenantId = 1,userId = 45;
+        private System.Windows.Forms.Timer timer;
+        public string accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQ1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IlJhZ2hhdl9OYXBoYWRlXzE0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicmFnaGF2Lm5hcGhhZGVAd2FpaW4uY29tIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJZTlBETjVCR1hRN0ROQURQNk9MSzdaT0kyQkRaUEhKQiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik1hbmFnZXIiLCJodHRwOi8vd3d3LmFzcG5ldGJvaWxlcnBsYXRlLmNvbS9pZGVudGl0eS9jbGFpbXMvdGVuYW50SWQiOiIxIiwic3ViIjoiNDUiLCJqdGkiOiIyMzcwM2RkYi03ZjA4LTRhNTctYTllMy00NWYwNmE5MDczMmYiLCJpYXQiOjE3MDQ4MDA0MTcsInRva2VuX3ZhbGlkaXR5X2tleSI6IjI3NDViMWE3LThhOWItNDk2YS1hOTAyLTY1YzRiZGM3OWMxZCIsInVzZXJfaWRlbnRpZmllciI6IjQ1QDEiLCJ0b2tlbl90eXBlIjoiMCIsIm5iZiI6MTcwNDgwMDQxNywiZXhwIjoxNzA0ODg2ODE3LCJpc3MiOiJJTlRJTUUiLCJhdWQiOiJJTlRJTUUifQ.m0ifctBlr4jUzT7tFtoj4XuDxHqcYaW3C4UBb3sjTUc";
         public Form1()
         {
             InitializeComponent();
-            this.FormClosing += Form1_FormClosing;
+            this.FormClosing += Form1_FormClosingAsync;
             this.Activated += new System.EventHandler(this.Form1_Activated);
-            /* this.Hide();
-             this.Visible = false;*/
-            /*       btnPost_Click();*/
+            ConnectSignalRServer();
 
-            btnPost_Click();
+            TrigerSignalRServerUserStatus("SignalRAgentUserStatus");
+
+           /* PostUserStatusToWeb();*/
+
         }
         private void Form1_Activated(object sender, EventArgs e)
         {
@@ -34,7 +42,7 @@ namespace CalculateLeftTime
             this.Visible = false;
             this.Opacity = 0;
             btnReadFile_Click();
-            this.ShowInTaskbar = true;
+            this.ShowInTaskbar = false;
             this.ShowIcon = false;
         }
 
@@ -65,7 +73,7 @@ namespace CalculateLeftTime
                    accessToken = (string)jsonObject["accessToken"];
                     Console.Write($" userid {userId}");
                     // Display the values (you can use any other way to display them)
-                     MessageBox.Show($"User ID: {userId}\nTenant ID: {tenantId} aT ${accessToken}", "JSON Data", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // MessageBox.Show($"User ID: {userId}\nTenant ID: {tenantId} aT ${accessToken}", "JSON Data", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     HideApp();
                 }
                 else
@@ -88,14 +96,14 @@ namespace CalculateLeftTime
             this.Hide();
             this.Visible = false;
             this.Opacity = 0;
-            this.ShowInTaskbar = true;
+            this.ShowInTaskbar = false;
             this.ShowIcon = false;
         }
-        protected override void WndProc(ref Message m)
+        protected override void WndProc(ref System.Windows.Forms.Message m)
         {
             if (m.Msg == WM_QUERYENDSESSION)
             {
-                btnPost_Click();
+                PostUserStatusToWeb();
                 System.Threading.Timer timer = new System.Threading.Timer(TimerCallback, null, 10000, System.Threading.Timeout.Infinite);
                 
                 //  MessageBox.Show("queryendsession: this is a logoff, shutdown, or reboot");
@@ -136,9 +144,10 @@ namespace CalculateLeftTime
               Console.WriteLine("Hello");
               this.Hide();
           }*/
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        private async Task Form1_FormClosedAsync(object sender, FormClosedEventArgs e)
 
         {
+            PostUserStatusToWeb();
             Console.WriteLine("Hello Form1_FormClosed");
 
             string message = "System is shutting down or user is logging off.2 WndProc";
@@ -157,13 +166,23 @@ namespace CalculateLeftTime
             // MessageBox.Show("queryendsession: this is a logoff, shutdown, or reboot");
             System.Diagnostics.Debug.WriteLine("System is shutting down or user is logging off.2 WndProc");
         }
-
-        private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-
+            // Code to be executed when the timer ticks
+            //  MessageBox.Show("Timeout reached!");
+            System.Diagnostics.Debug.WriteLine("Timeout reached!");
+            // Stop the timer
+            timer.Stop();
+        }
+        private async void Form1_FormClosingAsync(Object sender, FormClosingEventArgs e)
+        {
+            PostUserStatusToWeb();
             //In case windows is trying to shut down, don't hold the process up
             if (e.CloseReason == CloseReason.UserClosing)
             {
+               
+                timer.Start();
+
                 Console.WriteLine("Hello Form1_FormClosing UserClosing");
 
                 string message = "System is shutting down or user is logging off.3 WndProc";
@@ -186,7 +205,7 @@ namespace CalculateLeftTime
 
             if (e.CloseReason == CloseReason.WindowsShutDown)
             {
-                btnPost_Click();
+               
                 Console.WriteLine("Hello Form1_FormClosing WindowsShutDown");
 
                 string message = "System is shutting down or user is logging off.4 WndProc";
@@ -216,7 +235,7 @@ namespace CalculateLeftTime
             this.Opacity = 0;
             btnReadFile_Click();
         }
-        private async void btnPost_Click()
+        private async Task btnPost_Click()
         {
             try
             {
@@ -259,7 +278,7 @@ namespace CalculateLeftTime
                             // Write the message to a text file
                             using (StreamWriter writer = new StreamWriter(filePath, true))
                             {
-                                writer.WriteLine($"{DateTime.Now} - {message}");
+                                writer.WriteLine($"{DateTime.Now} - {message} ");
                             }
 
                             // Process the response as needed
@@ -321,5 +340,96 @@ namespace CalculateLeftTime
             }
            
         }
+
+
+        private static async void ConnectSignalRServer()
+        {
+            try
+            {
+                //string signalRUrl = "https://localhost:44301/notifyclient";
+                //string signalRUrl = "https://stagapi.intimepros.com/notifyclient";
+
+                //-------------------
+               SignalRConn = new HubConnectionBuilder()
+                  .WithUrl("https://uatapi.intimepro.io/notifyclient")
+                  .Build();
+
+                SignalRConn.Closed += async (error) =>
+                {
+                    await Task.Delay(new Random().Next(0, 5) * 1000);
+                    await SignalRConn.StartAsync();
+                    var data = new RegisterSignalRDto();
+                    data.userId = 45;
+                    data.tenantId = (int)1;
+                    data.device = "W";
+                    await SignalRConn.SendAsync("RegisterClientId", data);
+                };
+
+                try
+                {
+                    await SignalRConn.StartAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+                //-------------------
+            }
+            catch (Exception ex)
+            {
+               
+            }
+        }
+
+        public void TrigerSignalRServerUserStatus(string SignalREvent)
+        {
+            try
+            {
+                #region snippet_ConnectionOn
+                if (SignalRConn == null) return;
+                SignalRConn.On<UserStatusDto>(SignalREvent, (data) =>
+                {
+                    Console.WriteLine("gfgggjfjhgjhghjgjhgjhgkg");
+                });
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+        public async static Task<HttpResponseMessage> PostUserStatusToWeb()
+        {
+            try
+            {
+                UserStatusDto userStatusDto = new UserStatusDto();
+                userStatusDto.TenantId = 1;
+                userStatusDto.UserId = 45;
+                userStatusDto.UserStatus = 5;
+
+                await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
+                return new HttpResponseMessage();
+              
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return null;
+        }
+    }
+    public class RegisterSignalRDto
+    {
+        public long userId { get; set; }
+        public int tenantId { get; set; }
+        public string device { get; set; }
+    }
+    public class UserStatusDto
+    {
+        public long TenantId { get; set; }
+        public long UserId { get; set; }
+        public int UserStatus { get; set; }
     }
 }
+
