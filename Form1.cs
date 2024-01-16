@@ -401,13 +401,13 @@ namespace CalculateLeftTime
                 System.Diagnostics.Debug.WriteLine("TrigerSignalRServerUserStatus" + ex);
             }
         }
-        public async static Task<HttpResponseMessage> PostUserStatusToWeb()
+        public async Task<HttpResponseMessage> PostUserStatusToWeb()
         {
             try
             {
                 UserStatusDto userStatusDto = new UserStatusDto();
-                userStatusDto.TenantId = 1;
-                userStatusDto.UserId = 45;
+                userStatusDto.TenantId = tenantId;
+                userStatusDto.UserId = userId;
                 userStatusDto.UserStatus = 5;
 
                 await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
