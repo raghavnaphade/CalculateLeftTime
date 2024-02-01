@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Microsoft.AspNet.SignalR.Messaging;
 using System.Drawing;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.AspNet.SignalR.Hosting;
 
 namespace CalculateLeftTime
 {
@@ -34,15 +35,16 @@ namespace CalculateLeftTime
             /*this.Hide()*/
             ;
         }
-        private void Form1_Load(object sender, EventArgs e)
+      /*  private void Form1_Load(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Form1_Load");
             this.Hide();
             this.Visible = false;
             this.Opacity = 0;
             btnReadFile_Click();
             this.ShowInTaskbar = false;
             this.ShowIcon = false;
-        }
+        }*/
 
         private void btnReadFile_Click()
         {
@@ -64,29 +66,40 @@ namespace CalculateLeftTime
                     // Read the contents of the file
                     string fileContent = File.ReadAllText(filePath);
                     JObject jsonObject = JObject.Parse(fileContent);
+                    string userIdString = jsonObject["userId"]?.ToString();
+                    string tenantIdString = jsonObject["tenantId"]?.ToString();
+                    if (!string.IsNullOrEmpty(userIdString) && !string.IsNullOrEmpty(tenantIdString))
+                    {
+                        userId = int.Parse(userIdString);
+                        tenantId = int.Parse(tenantIdString);
+                        accessToken = jsonObject["accessToken"]?.ToString();
+                        Console.Write($" userid {userId}");
+                        System.Diagnostics.Debug.WriteLine($" userid {userId}");
+                        ConnectSignalRServer();
+                        TrigerSignalRServerUserStatus("SignalRAgentUserStatus");
+                    } else
+                    {
+                        Console.Write($" userid/tenantid null");
+                        System.Diagnostics.Debug.WriteLine($"userid/tenantid null");
+                    }
+                   
 
-                    // Display the content in a MessageBox (you can use any other way to display it)
-                   userId = (int)jsonObject["userId"];
-                   tenantId = (int)jsonObject["tenantId"];
-                   accessToken = (string)jsonObject["accessToken"];
-                    Console.Write($" userid {userId}");
-                    System.Diagnostics.Debug.WriteLine($" userid {userId}");
+                    // Process accessToken
+                 
                     HideApp();
-                    ConnectSignalRServer();
-                    TrigerSignalRServerUserStatus("SignalRAgentUserStatus");
+                  
                 }
                 else
                 {
-                    MessageBox.Show("File not found.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                   System.Diagnostics.Debug.WriteLine($" userid not found");
+                  //  MessageBox.Show("File not found.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Diagnostics.Debug.WriteLine($" userid not found");
                     HideApp();
 
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                /*MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);*/
             }
         }
 
@@ -98,7 +111,7 @@ namespace CalculateLeftTime
             this.ShowInTaskbar = false;
             this.ShowIcon = false;
         }
-        protected override void WndProc(ref System.Windows.Forms.Message m)
+      /*  protected override void WndProc(ref System.Windows.Forms.Message m)
         {
             if (m.Msg == WM_QUERYENDSESSION)
             {
@@ -110,8 +123,8 @@ namespace CalculateLeftTime
             }
 
             base.WndProc(ref m);
-        }
-        private void TimerCallback(object state)
+        }*/
+       /* private void TimerCallback(object state)
         {
             // Code to execute after 10 seconds
             // This can include any additional logic or actions you want to perform
@@ -136,7 +149,7 @@ namespace CalculateLeftTime
                 }
                 System.Diagnostics.Debug.WriteLine("System is shutting down or user is logging off.1 WndProc");
             });
-        }
+        }*/
 
         /*  private void Form1_Load(object sender, EventArgs e)
           {
@@ -184,7 +197,7 @@ namespace CalculateLeftTime
 
                 Console.WriteLine("Hello Form1_FormClosing UserClosing");
 
-                string message = "System is shutting down or user is logging off.3 WndProc";
+                string message = "System is shutting down or user is logging off.3 Form1_FormClosingAsync";
 
                 // Get the path to the Documents folder
                 string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -197,7 +210,7 @@ namespace CalculateLeftTime
                 {
                     writer.WriteLine($"{DateTime.Now} - {message}");
                 }
-                System.Diagnostics.Debug.WriteLine("System is shutting down or user is logging off.3 WndProc");
+                System.Diagnostics.Debug.WriteLine("System is shutting down or user is logging off.3 Form1_FormClosingAsync");
                 /*  MessageBox.Show("queryendsession: this is a logoff, shutdown, or reboot UserClosing");*/
             }
             // Prompt user to save his data
@@ -207,7 +220,7 @@ namespace CalculateLeftTime
                
                 Console.WriteLine("Hello Form1_FormClosing WindowsShutDown");
 
-                string message = "System is shutting down or user is logging off.4 WndProc";
+                string message = "System is shutting down or user is logging off.4 Form1_FormClosingAsync";
 
                 // Get the path to the Documents folder
                 string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -220,7 +233,7 @@ namespace CalculateLeftTime
                 {
                     writer.WriteLine($"{DateTime.Now} - {message}");
                 }
-                System.Diagnostics.Debug.WriteLine("System is shutting down or user is logging off.4 WndProc");
+                System.Diagnostics.Debug.WriteLine("System is shutting down or user is logging off.4 Form1_FormClosingAsync");
 
                
                 /* MessageBox.Show("queryendsession: this is a logoff, shutdown, or reboot WindowsShutDown");*/
@@ -229,6 +242,7 @@ namespace CalculateLeftTime
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Form1_Load_1");
             this.Hide();
             this.Visible = false;
             this.Opacity = 0;
@@ -405,15 +419,31 @@ namespace CalculateLeftTime
         {
             try
             {
-                UserStatusDto userStatusDto = new UserStatusDto();
-                userStatusDto.TenantId = tenantId;
-                userStatusDto.UserId = userId;
-                userStatusDto.UserStatus = 5;
+                if (tenantId != 0 && userId != 0)
+                {
+                    UserStatusDto userStatusDto = new UserStatusDto();
+                    userStatusDto.TenantId = tenantId;
+                    userStatusDto.UserId = userId;
+                    userStatusDto.UserStatus = 5;
 
-                await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
-                System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent");
-                return new HttpResponseMessage();
-              
+                    await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
+                    System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent");
+
+                    string message = "Signal R status send" + "";
+
+                    // Get the path to the Documents folder
+                    string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                    // Specify the file path in the Documents folder
+                    string filePath = Path.Combine(documentsPath, "IsSuccessStatusCode.txt");
+
+                    // Write the message to a text file
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine($"{DateTime.Now} - {message} ");
+                    }
+                    return new HttpResponseMessage();
+                }
             }
             catch (Exception ex)
             {
