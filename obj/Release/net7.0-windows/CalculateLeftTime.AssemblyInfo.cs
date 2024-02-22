@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CalculateLeftTime")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7335bf557376d8cdb13adfef3cfb88ce9cfd83df")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0d5583599fde9598361952698016d47547049dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("CalculateLeftTime")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CalculateLeftTime")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1148,24 +1148,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CalculateLeftTime\\CalculateLeftTime.csproj",
+      "projectUniqueName": "D:\\Projects\\CalculateLeftTime\\CalculateLeftTime.csproj",
       "projectName": "CalculateLeftTime",
-      "projectPath": "D:\\CalculateLeftTime\\CalculateLeftTime.csproj",
+      "projectPath": "D:\\Projects\\CalculateLeftTime\\CalculateLeftTime.csproj",
       "packagesPath": "C:\\Users\\RaghavNaphade\\.nuget\\packages\\",
-      "outputPath": "D:\\CalculateLeftTime\\obj\\",
+      "outputPath": "D:\\Projects\\CalculateLeftTime\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\RaghavNaphade\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1173,7 +1168,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1188,7 +1182,9 @@
         ]
       },
       "restoreAuditProperties": {
-        "enableAudit": "default"
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1222,19 +1218,19 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.15, 7.0.15]"
+            "version": "[7.0.16, 7.0.16]"
           },
           {
             "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[7.0.15, 7.0.15]"
+            "version": "[7.0.16, 7.0.16]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[7.0.15, 7.0.15]"
+            "version": "[7.0.16, 7.0.16]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[7.0.15, 7.0.15]"
+            "version": "[7.0.16, 7.0.16]"
           }
         ],
         "frameworkReferences": {
@@ -1245,7 +1241,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   },
