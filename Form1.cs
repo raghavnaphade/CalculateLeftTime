@@ -239,7 +239,7 @@ namespace CalculateLeftTime
                     var data = new RegisterSignalRDto();
                     data.userId = 45;
                     data.tenantId = (int)1;
-                    data.device = "W";
+                    data.device = "L";
                     await SignalRConn.SendAsync("RegisterClientId", data);
                     System.Diagnostics.Debug.WriteLine("RegisterClientId");
                     AddLogs("RegisterClientId");

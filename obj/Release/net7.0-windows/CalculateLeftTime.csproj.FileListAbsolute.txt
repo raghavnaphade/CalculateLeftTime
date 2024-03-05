@@ -82,9 +82,9 @@ D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.Assem
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.AssemblyInfo.cs
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.csproj.CoreCompileInputs.cache
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.sourcelink.json
+D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\Calculat.2358A47F.Up2Date
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.dll
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\refint\CalculateLeftTime.dll
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.pdb
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\CalculateLeftTime.genruntimeconfig.cache
 D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\ref\CalculateLeftTime.dll
-D:\Projects\CalculateLeftTime\obj\Release\net7.0-windows\Calculat.2358A47F.Up2Date

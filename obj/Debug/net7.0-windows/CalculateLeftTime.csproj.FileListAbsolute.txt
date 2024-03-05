@@ -85,6 +85,6 @@ D:\Projects\CalculateLeftTime\bin\Debug\net7.0-windows\System.Text.Encodings.Web
 D:\Projects\CalculateLeftTime\bin\Debug\net7.0-windows\System.Text.Json.dll
 D:\Projects\CalculateLeftTime\bin\Debug\net7.0-windows\System.Threading.Channels.dll
 D:\Projects\CalculateLeftTime\bin\Debug\net7.0-windows\runtimes\browser\lib\net7.0\System.Text.Encodings.Web.dll
-D:\Projects\CalculateLeftTime\obj\Debug\net7.0-windows\CalculateLeftTime.csproj.CopyComplete
 D:\Projects\CalculateLeftTime\obj\Debug\net7.0-windows\CalculateLeftTime.genruntimeconfig.cache
 D:\Projects\CalculateLeftTime\obj\Debug\net7.0-windows\ref\CalculateLeftTime.dll
+D:\Projects\CalculateLeftTime\obj\Debug\net7.0-windows\Calculat.2358A47F.Up2Date
