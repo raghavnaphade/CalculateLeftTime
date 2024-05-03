@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "osJlBpDggBhIjvjiPJpTkL9IOgNGcwJnVN45sAW39uPS4cnwnU4wwKMI1w7qQhM5Xcb15ElPWvxp1s/wFcqPOQ==",
+  "dgSpecHash": "kQwkjX2PcEzPrRDecAA2INfWpEe+lJnkm07VtRC0dkcsV0TDEqKUMifft99+XyJO9+6kZo6sJsOiq0mpJnR3ig==",
   "success": true,
   "projectFilePath": "D:\\Projects\\CalculateLeftTime\\CalculateLeftTime.csproj",
   "expectedPackageFiles": [
@@ -28,11 +28,7 @@
     "C:\\Users\\RaghavNaphade\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512",
     "C:\\Users\\RaghavNaphade\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\RaghavNaphade\\.nuget\\packages\\system.text.json\\8.0.1\\system.text.json.8.0.1.nupkg.sha512",
-    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\system.threading.channels\\8.0.0\\system.threading.channels.8.0.0.nupkg.sha512",
-    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.16\\microsoft.windowsdesktop.app.ref.7.0.16.nupkg.sha512",
-    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.16\\microsoft.netcore.app.ref.7.0.16.nupkg.sha512",
-    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.16\\microsoft.aspnetcore.app.ref.7.0.16.nupkg.sha512",
-    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.16\\microsoft.netcore.app.host.win-x64.7.0.16.nupkg.sha512"
+    "C:\\Users\\RaghavNaphade\\.nuget\\packages\\system.threading.channels\\8.0.0\\system.threading.channels.8.0.0.nupkg.sha512"
   ],
   "logs": [
     {

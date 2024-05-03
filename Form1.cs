@@ -10,6 +10,7 @@ using System.Drawing;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNet.SignalR.Hosting;
 
+
 namespace CalculateLeftTime
 {
     public partial class Form1 : Form
@@ -224,21 +225,21 @@ namespace CalculateLeftTime
             try
             {
                 //string signalRUrl = "https://localhost:44301/notifyclient";
-                string signalRUrl = "https://stagapi.intimepro.io/notifyclient";
-                //string signalRUrl = "https://uatapi.intimepro.io/notifyclient";
-                //string signalRUrl = "https://api.intimepro.io/notifyclient",
+                // string signalRUrl = "https://stagapi.intimepro.io/notifyclient";
+                // string signalRUrl = "https://uatapi.intimepro.io/notifyclient";
+                string signalRUrl = "https://api.intimepro.io/notifyclient";
                 //-------------------
                 SignalRConn = new HubConnectionBuilder()
                   .WithUrl(signalRUrl)
                   .Build();
-
+                var data = new RegisterSignalRDto();
                 SignalRConn.Closed += async (error) =>
                 {
                     await Task.Delay(new Random().Next(0, 5) * 1000);
                     await SignalRConn.StartAsync();
-                    var data = new RegisterSignalRDto();
-                    data.userId = 45;
-                    data.tenantId = (int)1;
+                  
+                    data.userId = userId;
+                    data.tenantId = tenantId;
                     data.device = "L";
                     await SignalRConn.SendAsync("RegisterClientId", data);
                     System.Diagnostics.Debug.WriteLine("RegisterClientId");
@@ -247,9 +248,13 @@ namespace CalculateLeftTime
 
                 try
                 {
+                    data.userId = userId;
+                    data.tenantId = tenantId;
+                    data.device = "L";
                     await SignalRConn.StartAsync();
+                    await SignalRConn.SendAsync("RegisterClientId", data);
                     System.Diagnostics.Debug.WriteLine("StartAsync RegisterClientId");
-                    AddLogs("StartAsync RegisterClientId");
+                    AddLogs($"StartAsync RegisterClientId {data.device}");
                     TrigerSignalRServerUserStatus("SignalRAgentUserStatus");
                     PostUserStatusToWeb(4);
                 }
@@ -332,30 +337,85 @@ namespace CalculateLeftTime
                 AddLogs("TrigerSignalRServerUserStatus" + ex);
             }
         }
+        /*   public static async Task<HttpResponseMessage> PostUserStatusToWeb(int UserStatus)
+           {
+               try
+               {
+                   if (tenantId != 0 && userId != 0)
+                   {
+                       UserStatusDto userStatusDto = new UserStatusDto();
+                       userStatusDto.TenantId = tenantId;
+                       userStatusDto.UserId = userId;
+                       userStatusDto.UserStatus = UserStatus;
+
+                       await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
+                       System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent");
+                       AddLogs("Signal R status send");
+                       return new HttpResponseMessage();
+                   }
+               }
+               catch (Exception ex)
+               {
+                   System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent" + ex);
+                   AddLogs("SignalRetOrUpdateUserStatusFromAgent" + ex);
+               }
+               return null;
+           }
+      */
+
         public static async Task<HttpResponseMessage> PostUserStatusToWeb(int UserStatus)
         {
             try
             {
-                if (tenantId != 0 && userId != 0)
+                if (SignalRConn.State == HubConnectionState.Disconnected)
                 {
-                    UserStatusDto userStatusDto = new UserStatusDto();
-                    userStatusDto.TenantId = tenantId;
-                    userStatusDto.UserId = userId;
-                    userStatusDto.UserStatus = UserStatus;
+                    // Reconnect to SignalR server
+                    var data = new RegisterSignalRDto();
+                    await SignalRConn.StartAsync();
+                    data.userId = userId;
+                    data.tenantId = tenantId;
+                    data.device = "L";
+                    await SignalRConn.SendAsync("RegisterClientId", data);
+                    System.Diagnostics.Debug.WriteLine("PostUserStatusToWeb RegisterClientId");
+                    AddLogs("PostUserStatusToWeb vRegisterClientId");
 
-                    await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
-                    System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent");
-                    AddLogs("Signal R status send");
-                    return new HttpResponseMessage();
+                    // Wait for the connection to become active
+                    while (SignalRConn.State != HubConnectionState.Connected)
+                    {
+                        await Task.Delay(500); // Wait for 500 milliseconds
+                    }
+                }
+
+                if (SignalRConn.State == HubConnectionState.Connected)
+                {
+                    if (tenantId != 0 && userId != 0)
+                    {
+                        UserStatusDto userStatusDto = new UserStatusDto();
+                        userStatusDto.TenantId = tenantId;
+                        userStatusDto.UserId = userId;
+                        userStatusDto.UserStatus = UserStatus;
+
+                        await SignalRConn.InvokeAsync("SignalRetOrUpdateUserStatusFromAgent", userStatusDto);
+                        System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent");
+                        AddLogs("Signal R status send");
+                        return new HttpResponseMessage();
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Failed to reconnect to SignalR server. Cannot send user status.");
+                    AddLogs("Failed to reconnect to SignalR server. Cannot send user status.");
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("SignalRetOrUpdateUserStatusFromAgent" + ex);
-                AddLogs("SignalRetOrUpdateUserStatusFromAgent" + ex);
+                System.Diagnostics.Debug.WriteLine("Error sending user status to SignalR server: " + ex.Message);
+                AddLogs("Error sending user status to SignalR server: " + ex.Message);
             }
             return null;
         }
+
+
     }
     public class RegisterSignalRDto
     {

@@ -11,20 +11,12 @@
       "RelativeMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|d:\\projects\\calculatelefttime\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|D:\\Projects\\CalculateLeftTime\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|d:\\projects\\calculatelefttime\\form1.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
-      "RelativeMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|solutionrelative:form1.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|d:\\projects\\calculatelefttime\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|D:\\Projects\\CalculateLeftTime\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|d:\\projects\\calculatelefttime\\calculatelefttime.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{D5C16228-14EF-4F60-89C6-36DA81A3DA0C}|CalculateLeftTime.csproj|solutionrelative:calculatelefttime.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,8 +26,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -44,18 +44,10 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "D:\\Projects\\CalculateLeftTime\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAA0wD8AAAAxAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-01T11:05:53.978Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -73,18 +65,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Form1.resx",
-              "DocumentMoniker": "D:\\Projects\\CalculateLeftTime\\Form1.resx",
-              "RelativeDocumentMoniker": "Form1.resx",
-              "ToolTip": "D:\\Projects\\CalculateLeftTime\\Form1.resx",
-              "RelativeToolTip": "Form1.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2024-03-01T11:05:42.612Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "D:\\Projects\\CalculateLeftTime\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
@@ -96,18 +76,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CalculateLeftTime",
-              "DocumentMoniker": "D:\\Projects\\CalculateLeftTime\\CalculateLeftTime.csproj",
-              "RelativeDocumentMoniker": "CalculateLeftTime.csproj",
-              "ToolTip": "D:\\Projects\\CalculateLeftTime\\CalculateLeftTime.csproj",
-              "RelativeToolTip": "CalculateLeftTime.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-03-01T11:01:27.207Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Projects\\CalculateLeftTime\\Program.cs",
@@ -116,8 +84,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAUAAAAAAAAAAAAiwA4AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-21T07:45:36.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-21T07:45:36.456Z"
             }
           ]
         }
